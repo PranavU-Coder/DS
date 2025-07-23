@@ -6,7 +6,7 @@ int main(void) {
     scanf("%d", &num);
     
     int arr[num]; // Declare an array of size 'num'
-    int *ptr = arr; // Point 'ptr' to the array's first element
+    int *ptr = arr; 
 
     printf("Enter the respective elements: ");
     for(int i = 0; i < num; i++) {
