@@ -5,7 +5,7 @@ int main(void) {
     printf("Enter number of elements to be inserted in an array: ");
     scanf("%d", &num);
     
-    int arr[num]; // Declare an array of size 'num'
+    int arr[num];
     int *ptr = arr; 
 
     printf("Enter the respective elements: ");
