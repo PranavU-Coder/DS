@@ -10,14 +10,14 @@ int main(void) {
 
     printf("Enter the respective elements: ");
     for(int i = 0; i < num; i++) {
-        scanf("%d", ptr + i); // Read elements using pointer arithmetic
+        scanf("%d", ptr + i);
     }
 
     printf("The elements are: ");
     for(int i = 0; i < num; i++) {
-        printf("%d ", *(ptr + i)); // Print elements using pointer arithmetic
+        printf("%d ", *(ptr + i)); 
     }
     
-    printf("\n"); // Print a newline for better format
+    printf("\n");
     return 0;
 }
