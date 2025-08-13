@@ -1,78 +1,133 @@
-#include<stdio.h>
-#include<stdlib.h>
-#define MAX 10
+#include <stdio.h>
+#include <stdlib.h>
 
-// DATA STRUCTURE
+struct stack {
+    int size;
+    int top;
+    int *st;
+};
 
-typedef struct{
-    int object;
-} Element;
-
-// ALL THE FUNCTIONS I WILL BE USING 
-
-int isFull(int *top){
-    if(*top == MAX-1){
+int isFull(struct stack st) {
+    if (st.top == st.size - 1) {
         return 1;
-    } else 
-    return 0;
+    } else
+        return 0;
 }
 
-int isEmpty(int *top){
-    if(*top == 1){
+int isEmpty(struct stack st) {
+    if (st.top == -1) {
         return 1;
-    } else 
-    return 0;
+    } else
+        return 0;
 }
 
-void CreateStack(Element stack[10],int *top,int object){
-    stack[++(*top)].object = object;
+void push(struct stack *st, int object) {
+    if (st->top == st->size - 1)
+        printf("stack overflow");
+    else {
+        st->top++;
+        st->st[st->top] = object;
+    }
 }
 
-int Pop(Element stack[10],int *top){
-    int element = stack[*top].object;
-    (*top)--;
-    return element;
+int Pop(struct stack *st) {
+    int object = -1;
+    if (st->top == -1)
+        printf("stack underflow");
+    else {
+        object = st->st[st->top];
+        st->top--;
+    }
+    return object;
 }
 
+int Peek(struct stack st, int pos) {
+    int object = -1;
+    if (st.top - pos + 1 < 0)
+        printf("\nOut Of Bounds");
+    else
+        object = st.st[st.top - pos + 1];
+    return object;
+}
 
-// MAIN PROGRAM
+int StackTop(struct stack st) {
+    if (st.top == -1)
+        return -1;
+    else
+        return st.st[st.top];
+}
 
-int main(void){
-    int top = -1;
-    int i,ch;
-    Element stack[MAX];
+int main(void) {
+    struct stack st;
+    int ch, i;
+
+    printf("Enter size of stack: ");
+    scanf("%d", &st.size);
+    st.top = -1;
+    st.st = (int *)malloc(st.size * sizeof(int));
+
+    if (st.st == NULL) {
+    printf("Memory allocation failed\n");
+    return 1;
+}
+
     do {
         printf("\nChoices : ");
-        printf("\n 1 : Push \n 2 : Pop \n 3 : Display \n 4 : Exit \n");
-        scanf("%d",&ch);
+        printf("\n 1 : Push \n 2 : Pop \n 3 : Display \n 4 : Peek \n 5 : Top Element \n 6 : Exit \n");
+        scanf("%d", &ch);
 
-        switch(ch){
+        switch (ch) {
             case 1:
-             if(isFull(&top)==0){
-                printf("Enter a value : ");
-                scanf("%d",&i);
+                if (!isFull(st)) {
+                    printf("Enter a value: ");
+                    scanf("%d", &i);
+                    push(&st, i);
+                } else {
+                    printf("Stack overflow");
+                }
+                break;
 
-                CreateStack(stack,&top,i);
-             } else {
-                printf("stack overflow");
-             } break;
-            
-             case 2: 
-              if(isEmpty(&top)==0){
-                int del = Pop(stack , &top);
-                printf("element popped is : %d",del);
-              } else {
-                printf("empty stack");
-              } break;
+            case 2:
+                if (!isEmpty(st)) {
+                    int del = Pop(&st);
+                    printf("Element popped is: %d", del);
+                } else {
+                    printf("Empty Stack");
+                }
+                break;
 
-              case 3:
-              printf("the content of the stack is : ");
-              for(int j=top;j>=0;j--){
-                printf("%d ",stack[j].object);
-              } break;
-              
-              default: printf("invalid choice\n"); 
+            case 3:
+                printf("The content of the stack is: ");
+                for (int j = st.top; j >= 0; j--) {
+                    printf("%d ", st.st[j]);
+                }
+                printf("\n");
+                break;
+
+            case 4:
+                printf("Enter index to be checked: ");
+                scanf("%d", &i);
+                int peek = Peek(st, i);
+                if (peek != -1)
+                    printf("Element at position %d is: %d\n", i, peek);
+                break;
+
+
+            case 5:
+                printf("Current top element of stack :");
+                int element = StackTop(st);
+                printf("%d",element);
+                break;
+
+            case 6:
+                printf("Exiting...\n");
+                break;
+
+            default:
+                printf("Invalid choice\n");
         }
-    } while(ch!=4);
+    } while (ch != 6);
+
+    free(st.st);
     return 0;
 }
