@@ -43,5 +43,5 @@ int main()
     printf("\n");
 
     free(ptr);
-    return 0;`
+    return 0;
 }
